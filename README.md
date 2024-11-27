@@ -70,10 +70,7 @@ streamlit run CineSLEUTH.py
 ### Sample Output Video
 Here is a sample video showcasing the output of CineSLEUTH:
 
-<video width="640" height="480" autoplay muted loop>
-  <source src="./SampleOutput.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+<iframe src="https://player.vimeo.com/video/1033815078" width="640" height="360" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
 
 *Example video showing movie recommendation process and visualization.*
 
