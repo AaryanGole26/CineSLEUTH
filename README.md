@@ -137,5 +137,5 @@ This project is licensed under the MIT License.
 
 ## Contact
 
-- **GitHub**: [AaryanGole26](https://github.com/AaryanGole26)
-- **Repository**: [CineSLEUTH](https://github.com/AaryanGole26/CineSLEUTH)
+[![GitHub - AaryanGole26](https://img.shields.io/badge/GitHub%20-%23AaryanGole26-%2300A6A6?style=for-the-badge)](https://github.com/AaryanGole26)
+[![Repository - CineSLEUTH](https://img.shields.io/badge/Repository%20-%23CineSLEUTH-%2300A6A6?style=for-the-badge)](https://github.com/AaryanGole26/CineSLEUTH)
