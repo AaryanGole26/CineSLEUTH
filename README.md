@@ -79,7 +79,7 @@ Here is a sample video showcasing the output of CineSLEUTH:
 
 The flowchart below represents the working of CineSLEUTH:
 
-<div align="center"> ![Flowchart](./Flowchart.png) </div>
+<div align="center"> <img src="./Flowchart.png" alt="CineSLEUTH Flowchart" style="max-width: 100%; height: auto;"> </div>
 *Flowchart depicting the movie recommendation process from user input to final recommendations.*
 
 ---
