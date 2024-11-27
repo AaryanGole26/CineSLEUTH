@@ -20,7 +20,6 @@ CineSLEUTH is an intelligent movie recommendation system that combines advanced 
 
 3. **Interactive User Experience**:
    - Auto-complete suggestions for movie titles with clickable options.
-   - Pie chart visualization of similarity scores.
    - Streamlit interface for an interactive and responsive application.
 
 4. **Real-Time Data Processing**:
@@ -47,6 +46,8 @@ CineSLEUTH is an intelligent movie recommendation system that combines advanced 
    - `tags.csv`
    - `genome_tags.csv`
 
+   You can fetch these datasets from [MovieLens 20M Dataset on Kaggle](https://www.kaggle.com/datasets/grouplens/movielens-20m-dataset).
+
 ---
 
 ## Usage
@@ -59,28 +60,38 @@ streamlit run CineSLEUTH.py
 ### Key Features in Action:
 1. Enter a movie title in the input box.
 2. Get auto-complete suggestions and click to see recommendations instantly.
-3. Analyze the recommendations through a pie chart and similarity score table.
+3. Analyze the recommendations through a table of similarity scores.
 4. View Apriori-based rules generated from collaborative filtering.
 
 ---
 
 ## Output Visualization
 
-### Pie Chart Visualization of Similarity Scores
-The recommendations include a visual distribution of similarity scores for the top 10 recommended movies.
+### Sample Output Video
+Here is a sample video showing the output of the CineSLEUTH recommendation system in action:
 
-![Pie Chart](https://via.placeholder.com/800x600?text=Sample+Pie+Chart)  
-*Example of similarity score visualization for recommended movies.*
+![Sample Output Video](https://via.placeholder.com/800x450?text=Sample+Output+Video)  
+*Example video showing movie recommendation process and visualization.*
 
 ---
 
-## File Structure
+## Flowchart of the System
+
+The flowchart below represents the working of CineSLEUTH:
+
+![Flowchart](https://via.placeholder.com/800x600?text=Sample+Flowchart)  
+*Flowchart depicting the movie recommendation process from user input to final recommendations.*
+
+---
+
+## File Structure 
 
 - `CineSLEUTH.py`: Main Python script for the Streamlit application.
 - `movies.csv`: Movie metadata.
 - `ratings.csv`: User rating data.
 - `tags.csv`: Tags associated with movies.
 - `genome_tags.csv`: Genome tags dataset.
+- `requirements.txt`: Required Modules.
 
 ---
 
