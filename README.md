@@ -46,7 +46,7 @@ CineSLEUTH is an intelligent movie recommendation system that combines advanced 
    - `tags.csv`
    - `genome_tags.csv`
 
-   You can fetch these datasets from [![MovieLens 20M Dataset on Kaggle](https://img.shields.io/badge/Fetch%20MovieLens%2020M%20Dataset%20on%20Kaggle-%2300A6A6?style=for-the-badge)](https://www.kaggle.com/datasets/grouplens/movielens-20m-dataset).
+   You can fetch these datasets from [![MovieLens 20M Dataset on Kaggle](https://img.shields.io/badge/Kaggle-%2300A6A6?style=for-the-badge)](https://www.kaggle.com/datasets/grouplens/movielens-20m-dataset)
 
 
 ---
