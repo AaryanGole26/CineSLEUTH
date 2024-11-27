@@ -1,5 +1,5 @@
 
-# CineSLEUTH
+<div align="center"> <img src="./CineSLEUTH_Banner.png" alt="CineSLEUTH" style="max-width: 100%; height: auto;"> </div>
 
 **CineSLEUTH: Your Ultimate Engine for Movie Recommendations**
 
@@ -80,6 +80,7 @@ Here is a sample video showcasing the output of CineSLEUTH:
 The flowchart below represents the working of CineSLEUTH:
 
 <div align="center"> <img src="./Flowchart.png" alt="CineSLEUTH Flowchart" style="max-width: 100%; height: auto;"> </div>
+
 *Flowchart depicting the movie recommendation process from user input to final recommendations.*
 
 ---
