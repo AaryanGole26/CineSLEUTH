@@ -70,7 +70,7 @@ streamlit run CineSLEUTH.py
 ### Sample Output Video
 Here is a sample video showing the output of the CineSLEUTH recommendation system in action:
 
-![Sample Output Video](https://via.placeholder.com/800x450?text=Sample+Output+Video)  
+![Sample Output Video](./SampleOutput.mp4)  
 *Example video showing movie recommendation process and visualization.*
 
 ---
@@ -79,7 +79,7 @@ Here is a sample video showing the output of the CineSLEUTH recommendation syste
 
 The flowchart below represents the working of CineSLEUTH:
 
-![Flowchart](https://via.placeholder.com/800x600?text=Sample+Flowchart)  
+![Flowchart](./Flowchart.png)  
 *Flowchart depicting the movie recommendation process from user input to final recommendations.*
 
 ---
