@@ -1,5 +1,7 @@
 
-<div align="center"> <img src="./ss/CineSLEUTH_Banner.png" alt="CineSLEUTH" style="max-width: 100%; height: auto;"> </div>
+<div align="center">
+  <img src="./ss/CineSLEUTH_Banner.png" alt="CineSLEUTH" style="max-width: 100%; height: auto;">
+</div>
 
 **CineSLEUTH: Your Ultimate Engine for Movie Recommendations**
 
