@@ -8,10 +8,10 @@ import seaborn as sns
 import streamlit as st
 
 # File paths
-movies_file = 'movies.csv'
-ratings_file = 'ratings.csv'
-tags_file = 'tag.csv'
-genome_tags_file = 'genome_tags.csv'
+movies_file = './datasets/movies.csv'
+ratings_file = './datasets/ratings.csv'
+tags_file = './datasets/tag.csv'
+genome_tags_file = './datasets/genome_tags.csv'
 
 # Load datasets
 @st.cache_data
