@@ -6,12 +6,13 @@ from sklearn.metrics.pairwise import cosine_similarity
 from fuzzywuzzy import process
 import matplotlib.pyplot as plt
 import seaborn as sns
+import os
 
 # File paths
-movies_file = 'datasets/movies.csv'
-ratings_file = 'datasets/ratings.csv'
-tags_file = 'datasets/tag.csv'
-genome_tags_file = 'datasets/genome_tags.csv'
+movies_file = os.path.join(BASE_DIR, 'datasets', 'movies.csv')
+ratings_file = os.path.join(BASE_DIR, 'datasets', 'ratings.csv')
+tags_file = os.path.join(BASE_DIR, 'datasets', 'tag.csv')
+genome_tags_file = os.path.join(BASE_DIR, 'datasets', 'genome_tags.csv')
 
 # Load datasets with error handling
 @st.cache_data
