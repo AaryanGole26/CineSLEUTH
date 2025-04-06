@@ -5,3 +5,4 @@ apyori
 scikit-learn
 fuzzywuzzy
 streamlit
+python-Levenshtein
