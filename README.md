@@ -1,8 +1,3 @@
-
-<div align="center">
-  <img src="./ss/CineSLEUTH_Banner.png" alt="CineSLEUTH" style="max-width: 100%; height: auto;">
-</div>
-
 **CineSLEUTH: Your Ultimate Engine for Movie Recommendations**
 
 CineSLEUTH is an intelligent movie recommendation system that combines advanced machine learning techniques such as TF-IDF vectorization, cosine similarity, fuzzy matching, and Apriori-based collaborative filtering. The system provides highly accurate and personalized movie recommendations for users.
