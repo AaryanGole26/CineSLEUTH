@@ -9,6 +9,7 @@ import seaborn as sns
 import os
 
 # File paths
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 movies_file = os.path.join(BASE_DIR, 'datasets', 'movies.csv')
 ratings_file = os.path.join(BASE_DIR, 'datasets', 'ratings.csv')
 tags_file = os.path.join(BASE_DIR, 'datasets', 'tag.csv')
