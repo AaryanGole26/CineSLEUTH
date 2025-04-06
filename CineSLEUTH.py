@@ -8,10 +8,10 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # File paths
-movies_file = './datasets/movies.csv'
-ratings_file = './datasets/ratings.csv'
-tags_file = './datasets/tag.csv'
-genome_tags_file = './datasets/genome_tags.csv'
+movies_file = 'datasets/movies.csv'
+ratings_file = 'datasets/ratings.csv'
+tags_file = 'datasets/tag.csv'
+genome_tags_file = 'datasets/genome_tags.csv'
 
 # Load datasets with error handling
 @st.cache_data
