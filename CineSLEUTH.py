@@ -1,3 +1,6 @@
+import streamlit as st
+st.title("CineSLEUTH")
+
 import pandas as pd
 from apyori import apriori
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -5,7 +8,6 @@ from sklearn.metrics.pairwise import cosine_similarity
 from fuzzywuzzy import process
 import matplotlib.pyplot as plt
 import seaborn as sns
-import streamlit as st
 
 # File paths
 movies_file = './datasets/movies.csv'
