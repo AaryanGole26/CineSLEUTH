@@ -8,30 +8,78 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import os
 import logging
+from supabase import create_client, Client
+import io
+from dotenv import load_dotenv
 
-# Configure logging to capture errors and debug info
+# Load environment variables from .env file
+load_dotenv()
+
+# Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-# File paths
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-movies_file = os.path.join(BASE_DIR, 'datasets', 'movies.csv') 
-ratings_file = os.path.join(BASE_DIR, 'datasets', 'ratings.csv')
-tags_file = os.path.join(BASE_DIR, 'datasets', 'tag.csv')
-genome_tags_file = os.path.join(BASE_DIR, 'datasets', 'genome_tags.csv')
+# Supabase configuration
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+BUCKET_NAME = "datasets"  # Update if your bucket name differs
+DATASET_FILES = {
+    "movies": "movie.csv",
+    "ratings": "ratings.csv",
+    "tags": "tag.csv",
+    "genome_tags": "genome_tags.csv"
+}
 
+# Validate environment variables
+if not SUPABASE_URL or not SUPABASE_KEY:
+    logger.error("SUPABASE_URL or SUPABASE_KEY is missing")
+    st.error("Supabase configuration is missing. Please set SUPABASE_URL and SUPABASE_KEY.")
+    st.stop()
+
+# Initialize Supabase client
+try:
+    supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+    logger.info("Supabase client initialized")
+    # Debug: List available buckets
+    buckets = supabase.storage.list_buckets()
+    logger.info(f"Available buckets: {[bucket.name for bucket in buckets]}")
+    st.write(f"Available buckets: {[bucket.name for bucket in buckets]}")
+except Exception as e:
+    logger.error(f"Failed to initialize Supabase client: {e}")
+    st.error(f"Failed to initialize Supabase client: {e}")
+    st.stop()
+
+# Load datasets from Supabase
 @st.cache_data
 def load_data():
     try:
-        logger.info("Loading datasets...")
-        movies = pd.read_csv(movies_file)
-        tags = pd.read_csv(tags_file)
-        genome_tags = pd.read_csv(genome_tags_file)
-        logger.info("Datasets loaded successfully")
-    except FileNotFoundError as e:
-        logger.error(f"File not found: {e}")
-        st.error(f"File not found: {e}")
-        st.stop()
+        logger.info("Fetching datasets from Supabase...")
+        datasets = {}
+        for key, file_name in DATASET_FILES.items():
+            try:
+                # Download file from Supabase bucket
+                response = supabase.storage.from_(BUCKET_NAME).download(file_name)
+                # Convert bytes to pandas DataFrame
+                datasets[key] = pd.read_csv(io.BytesIO(response))
+                logger.info(f"Loaded {file_name} from Supabase")
+            except Exception as e:
+                logger.error(f"Error downloading {file_name}: {e}")
+                st.error(f"Error downloading {file_name}: {e}")
+                st.stop()
+        
+        movies = datasets["movies"]
+        tags = datasets["tags"]
+        genome_tags = datasets["genome_tags"]
+
+        # Preprocess data
+        tags['tag'] = tags['tag'].fillna('')
+        tagged_movies = pd.merge(tags, movies[['movieId', 'title']], on='movieId', how='inner')
+        tagged_movies_grouped = tagged_movies.groupby('title')['tag'].apply(
+            lambda x: ' '.join(str(tag) for tag in x if isinstance(tag, str))
+        ).reset_index()
+        movies = pd.merge(movies, tagged_movies_grouped, on='title', how='left')
+        logger.info("Data preprocessing completed")
+        return movies
     except pd.errors.ParserError as e:
         logger.error(f"CSV parsing error: {e}")
         st.error(f"Error parsing CSV file: {e}")
@@ -41,34 +89,19 @@ def load_data():
         st.error(f"Unexpected error loading datasets: {e}")
         st.stop()
 
-    try:
-        tags['tag'] = tags['tag'].fillna('')
-        tagged_movies = pd.merge(tags, movies[['movieId', 'title']], on='movieId', how='inner')
-        tagged_movies_grouped = tagged_movies.groupby('title')['tag'].apply(
-            lambda x: ' '.join(str(tag) for tag in x if isinstance(tag, str))
-        ).reset_index()
-        movies = pd.merge(movies, tagged_movies_grouped, on='title', how='left')
-        logger.info("Data preprocessing completed")
-        return movies
-    except Exception as e:
-        logger.error(f"Error preprocessing data: {e}")
-        st.error(f"Error preprocessing data: {e}")
-        st.stop()
-
-# Wrap startup operations in try-except to catch errors
+# Wrap startup operations
 try:
     logger.info("Starting CineSLEUTH app")
     movies = load_data()
 
-    # TF-IDF setup with max_features to reduce memory usage
-    tfidf = TfidfVectorizer(stop_words='english', max_features=5000)  # Limit features for efficiency
+    # TF-IDF setup with max_features
+    tfidf = TfidfVectorizer(stop_words='english', max_features=5000)
     movies['genres'] = movies['genres'].fillna('')
     movies['tag'] = movies['tag'].fillna('')
     movies['combined'] = movies['genres'] + ' ' + movies['tag']
     tfidf_matrix = tfidf.fit_transform(movies['combined'])
     cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)
     logger.info("TF-IDF and cosine similarity computed")
-
 except Exception as e:
     logger.error(f"Startup error: {e}")
     st.error(f"Startup error: {e}")
@@ -110,7 +143,6 @@ def get_recommendations(title, cosine_sim=cosine_sim):
 # UI Elements
 st.title("🎬 CineSLEUTH: Your Ultimate Movie Recommender")
 st.subheader("Uncover Your Next Favorite Film with Smart Recommendations")
-st.write(f"Running on port: {os.getenv('PORT', '8501')}")  # Debug port
 
 # Input field and session state
 if 'user_input' not in st.session_state:
@@ -147,13 +179,17 @@ with st.expander("📊 Run Apriori Collaborative Filtering (may take time)"):
     if st.button("Run Apriori"):
         st.info("Running Apriori on ratings data. Please wait...")
         try:
+            # Download ratings.csv from Supabase
+            response = supabase.storage.from_(BUCKET_NAME).download(DATASET_FILES["ratings"])
+            ratings_df = pd.read_csv(io.BytesIO(response))
+            
             transactions = []
-            chunk_size = 5000  # Reduced chunk size for memory efficiency
-            for chunk in pd.read_csv(ratings_file, chunksize=chunk_size):
+            chunk_size = 5000
+            for chunk in pd.read_csv(io.BytesIO(response), chunksize=chunk_size):
                 chunk_merged = pd.merge(chunk, movies[['movieId', 'title']], on='movieId')
                 chunk_transactions = chunk_merged.groupby('userId')['title'].apply(list).values.tolist()
-                transactions.extend(chunk_transactions[:100])  # Limit transactions per chunk
-                if len(transactions) > 1000:  # Cap total transactions
+                transactions.extend(chunk_transactions[:100])
+                if len(transactions) > 1000:
                     break
 
             rules = apriori(transactions, min_support=0.01, min_confidence=0.2, min_lift=3, min_length=2)
