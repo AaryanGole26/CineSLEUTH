@@ -43,7 +43,6 @@ try:
     # Debug: List available buckets
     buckets = supabase.storage.list_buckets()
     logger.info(f"Available buckets: {[bucket.name for bucket in buckets]}")
-    st.write(f"Available buckets: {[bucket.name for bucket in buckets]}")
 except Exception as e:
     logger.error(f"Failed to initialize Supabase client: {e}")
     st.error(f"Failed to initialize Supabase client: {e}")
